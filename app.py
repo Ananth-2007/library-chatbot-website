@@ -12,7 +12,6 @@ app = Flask(__name__)
 CORS(app)
 
 # Configure the SQLite database
-# The database file will be created in a special instance folder for Render
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'sqlite:///library.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -162,7 +161,8 @@ def download_receipt(transaction_id):
     pdf.cell(200, 8, txt=f"Member Name: {transaction.member.name}", ln=True)
     pdf.cell(200, 8, txt=f"Member Phone: {transaction.member.phone_no}", ln=True)
     pdf.cell(200, 8, txt=f"Book Title: {transaction.book.title}", ln=True)
-    pdf.cell(200, 8, txt=f"Issue Date: {transaction.issue_date.strftime('%d-%m-%Y')}", lnTrue)
+    # This is the corrected line
+    pdf.cell(200, 8, txt=f"Issue Date: {transaction.issue_date.strftime('%d-%m-%Y')}", ln=True)
     pdf.cell(200, 8, txt=f"Due Date: {transaction.due_date.strftime('%d-%m-%Y')}", ln=True)
     pdf.set_font("Arial", 'B', 12)
     pdf.cell(200, 8, txt=f"Total Amount: Rs. {transaction.total_amount:.2f}", ln=True)
@@ -175,5 +175,5 @@ def download_receipt(transaction_id):
 # Main entry point for local development
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all() # Create database if it doesn't exist
+        db.create_all()
     app.run(debug=True)
