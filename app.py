@@ -52,17 +52,26 @@ def init_db_command():
             {'title': '1984', 'author': 'George Orwell', 'is_available': True, 'image_url': 'https://picsum.photos/id/13/100/150', 'daily_rate': 7.50},
             {'title': 'To Kill a Mockingbird', 'author': 'Harper Lee', 'is_available': True, 'image_url': 'https://picsum.photos/id/20/100/150', 'daily_rate': 8.00},
             {'title': 'Pride and Prejudice', 'author': 'Jane Austen', 'is_available': True, 'image_url': 'https://picsum.photos/id/22/100/150', 'daily_rate': 5.00},
+            {'title': 'The Great Gatsby', 'author': 'F. Scott Fitzgerald', 'is_available': False, 'image_url': 'https://picsum.photos/id/21/100/150', 'daily_rate': 9.00},
+            {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'is_available': True, 'image_url': 'https://picsum.photos/id/23/100/150', 'daily_rate': 7.00},
+            {'title': 'Moby Dick', 'author': 'Herman Melville', 'is_available': False, 'image_url': 'https://picsum.photos/id/24/100/150', 'daily_rate': 10.00},
             {'title': 'The Lord of the Rings', 'author': 'J.R.R. Tolkien', 'is_available': True, 'image_url': 'https://picsum.photos/id/25/100/150', 'daily_rate': 15.00},
             {'title': 'Harry Potter and the Sorcerer\'s Stone', 'author': 'J.K. Rowling', 'is_available': True, 'image_url': 'https://picsum.photos/id/26/100/150', 'daily_rate': 10.00},
+            {'title': 'Fahrenheit 451', 'author': 'Ray Bradbury', 'is_available': False, 'image_url': 'https://picsum.photos/id/27/100/150', 'daily_rate': 8.50},
             {'title': 'Brave New World', 'author': 'Aldous Huxley', 'is_available': True, 'image_url': 'https://picsum.photos/id/28/100/150', 'daily_rate': 9.50},
+            {'title': 'The Diary of a Young Girl', 'author': 'Anne Frank', 'is_available': True, 'image_url': 'https://picsum.photos/id/29/100/150', 'daily_rate': 6.00},
+            {'title': 'The Alchemist', 'author': 'Paulo Coelho', 'is_available': False, 'image_url': 'https://picsum.photos/id/30/100/150', 'daily_rate': 11.00},
+            {'title': 'Sapiens: A Brief History of Humankind', 'author': 'Yuval Noah Harari', 'is_available': True, 'image_url': 'https://picsum.photos/id/39/100/150', 'daily_rate': 15.00},
+            {'title': 'Atomic Habits', 'author': 'James Clear', 'is_available': False, 'image_url': 'https://picsum.photos/id/40/100/150', 'daily_rate': 12.00}
         ]
         for book_data in books_to_add:
             db.session.add(Book(**book_data))
         
         m1 = Member(name="John Doe", phone_no="555-1234")
-        db.session.add(m1)
+        m2 = Member(name="Jane Smith", phone_no="555-5678")
+        db.session.add_all([m1, m2])
         db.session.commit()
-    print("Initialized and seeded the database.")
+    print("Initialized and seeded the database with 15 books.")
 
 
 # --- WEBSITE ROUTES ---
@@ -161,7 +170,6 @@ def download_receipt(transaction_id):
     pdf.cell(200, 8, txt=f"Member Name: {transaction.member.name}", ln=True)
     pdf.cell(200, 8, txt=f"Member Phone: {transaction.member.phone_no}", ln=True)
     pdf.cell(200, 8, txt=f"Book Title: {transaction.book.title}", ln=True)
-    # This is the corrected line
     pdf.cell(200, 8, txt=f"Issue Date: {transaction.issue_date.strftime('%d-%m-%Y')}", ln=True)
     pdf.cell(200, 8, txt=f"Due Date: {transaction.due_date.strftime('%d-%m-%Y')}", ln=True)
     pdf.set_font("Arial", 'B', 12)
